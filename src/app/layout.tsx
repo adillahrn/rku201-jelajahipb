@@ -32,9 +32,9 @@ export const metadata: Metadata = {
   openGraph: {
     title: "RKU 2.01: Midnight — Indie Horror Game",
     description:
-      "On the night of October 31, no one is safe inside Room 2.01. Play the free demo now.",
+      "A psychological top-down horror game set in RKU 2.01, IPB University. At 2:01 AM inside room RKU 2.01, no one survives. Play the free demo now.",
     type: "website",
-    images: ["/images/video_1.png"],
+    images: ["/images/foto_4.png"],
   },
 };
 
