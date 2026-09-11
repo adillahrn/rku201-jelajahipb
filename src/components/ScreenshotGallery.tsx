@@ -4,10 +4,9 @@ import { useState, useEffect, useCallback } from 'react';
 import { Maximize2, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
 const screenshots = [
-  { id: 1, src: '/images/foto_1.png', caption: 'Corridor B North — 00:14 AM' },
-  { id: 2, src: '/images/foto_2.png', caption: 'Main Lecture Hall 2.01 Terminal' },
-  { id: 3, src: '/images/foto_3.png', caption: 'Faculty Archive & Emergency Fuse Box' },
-  { id: 4, src: '/images/video_1.png', caption: 'Underground Maintenance Hatch Access' },
+  { id: 1, src: '/images/log_entry_01_rku.png', caption: 'Log Entry 1 — RKU 2.01' },
+  { id: 2, src: '/images/log_entry_02_corridors.png', caption: 'Log Entry 2 — Corridor' },
+  { id: 3, src: '/images/log_entry_03_labkom.png', caption: 'Log Entry 3 — Computer Lab' },
 ];
 
 export default function ScreenshotGallery() {

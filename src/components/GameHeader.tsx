@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { Play, ChevronRight } from 'lucide-react';
+import { ChevronRight } from 'lucide-react';
 
 export default function GameHeader() {
   return (
@@ -24,17 +24,7 @@ export default function GameHeader() {
             </div>
           </div>
 
-          <div className="flex items-center w-full sm:w-auto">
-            <a 
-              href="https://github.com/adillahrn/rku2.01" 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#3b82f6] hover:bg-blue-500 text-white px-8 py-3 rounded-sm font-semibold transition-all shadow-[0_0_15px_rgba(59,130,246,0.3)] hover:shadow-[0_0_25px_rgba(59,130,246,0.5)]"
-            >
-              <Play className="w-5 h-5 fill-current" />
-              Play Demo
-            </a>
-          </div>
+
         </div>
       </div>
     </header>

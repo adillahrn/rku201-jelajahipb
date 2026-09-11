@@ -35,7 +35,7 @@ export default function Footer() {
               Explore the desolate halls of a midnight campus where reality distorts and the shadows observe.
             </p>
             <p className="text-slate-500 font-mono text-xs mt-auto pt-4">
-              &copy; 2026 Midnight Studio
+              &copy; 2026 Ter Serah Studio
             </p>
           </div>
 
@@ -62,11 +62,6 @@ export default function Footer() {
               <li>
                 <a href="#features" className="text-slate-300 hover:text-blue-400 transition-colors">
                   Features
-                </a>
-              </li>
-              <li>
-                <a href="#requirements" className="text-slate-300 hover:text-blue-400 transition-colors">
-                  System Requirements
                 </a>
               </li>
             </ul>

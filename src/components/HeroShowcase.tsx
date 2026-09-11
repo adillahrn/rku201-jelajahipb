@@ -3,21 +3,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Image from 'next/image';
 import { 
-  Play, Pause, Volume2, Maximize, Settings, 
+  Play, Pause, Volume2, VolumeX, Maximize, Settings, 
   ChevronLeft, ChevronRight, Bookmark, Download, RectangleHorizontal
 } from 'lucide-react';
 
 const showcaseMedia = [
-  { id: 'hero-1', type: 'video' as const, title: 'Teaser Trailer', tag: 'TRAILER', poster: '/images/video_1.png', caption: 'Official Announcement Teaser — 00:00 Corridor Alarm' },
-  { id: 'hero-2', type: 'video' as const, title: 'Gameplay Trailer', tag: 'GAMEPLAY', poster: '/images/video_2.png', caption: 'Gameplay Reveal — The Hallway Incident' },
-  { id: 'hero-3', type: 'image' as const, title: 'Faculty Archive', tag: 'SCREENSHOT', poster: '/images/foto_1.png', caption: 'Corridor B North: Faculty Archive & Emergency Fuse Box' },
-  { id: 'hero-4', type: 'image' as const, title: 'Underground Corridor', tag: 'SCREENSHOT', poster: '/images/foto_2.png', caption: 'Sub-Level 2: Underground Maintenance Hatch' },
-  { id: 'hero-5', type: 'image' as const, title: 'Room 2.01 Doorway', tag: 'SCREENSHOT', poster: '/images/foto_3.png', caption: 'Threshold 2.01: Temporal displacement detected' },
+  { id: 'hero-1', type: 'video' as const, title: 'Teaser Trailer', tag: 'TRAILER', poster: '/images/foto_4.png', caption: 'Official Announcement Teaser — 00:00 Corridor Alarm' },
+  { id: 'hero-3', type: 'image' as const, title: 'Log Entry 1', tag: 'SCREENSHOT', poster: '/images/log_entry_01_rku.png', caption: 'Location: RKU 2.01' },
+  { id: 'hero-4', type: 'image' as const, title: 'Log Entry 2', tag: 'SCREENSHOT', poster: '/images/log_entry_02_corridors.png', caption: 'Location: Corridor' },
+  { id: 'hero-5', type: 'image' as const, title: 'Log Entry 3', tag: 'SCREENSHOT', poster: '/images/log_entry_03_labkom.png', caption: 'Location: Computer Lab' },
 ];
 
 export default function HeroShowcase() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isMuted, setIsMuted] = useState(true);
+  const [progress, setProgress] = useState(0);
+  const [currentTimeStr, setCurrentTimeStr] = useState('0:00');
+  const [durationStr, setDurationStr] = useState('0:00');
   const videoRef = useRef<HTMLVideoElement>(null);
   const activeMedia = showcaseMedia[activeIndex];
 
@@ -39,6 +42,43 @@ export default function HeroShowcase() {
     }
   };
 
+  const toggleMute = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isMuted;
+      setIsMuted(!isMuted);
+    }
+  };
+
+  const formatTime = (timeInSeconds: number) => {
+    if (isNaN(timeInSeconds)) return '0:00';
+    const m = Math.floor(timeInSeconds / 60);
+    const s = Math.floor(timeInSeconds % 60);
+    return `${m}:${s < 10 ? '0' : ''}${s}`;
+  };
+
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      const current = videoRef.current.currentTime;
+      const duration = videoRef.current.duration;
+      setProgress((current / duration) * 100 || 0);
+      setCurrentTimeStr(formatTime(current));
+    }
+  };
+
+  const handleLoadedMetadata = () => {
+    if (videoRef.current) {
+      setDurationStr(formatTime(videoRef.current.duration));
+    }
+  };
+
+  const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (videoRef.current) {
+      const newTime = (Number(e.target.value) / 100) * videoRef.current.duration;
+      videoRef.current.currentTime = newTime;
+      setProgress(Number(e.target.value));
+    }
+  };
+
   const handlePrev = () => setActiveIndex((prev) => (prev > 0 ? prev - 1 : showcaseMedia.length - 1));
   const handleNext = () => setActiveIndex((prev) => (prev < showcaseMedia.length - 1 ? prev + 1 : 0));
 
@@ -55,11 +95,13 @@ export default function HeroShowcase() {
               <video 
                 ref={videoRef}
                 src="/videos/video_demo.mp4" 
-                poster="/images/video_1.png" 
+                poster="/images/foto_4.png" 
                 autoPlay 
-                muted 
+                muted={isMuted} 
                 loop 
                 playsInline
+                onTimeUpdate={handleTimeUpdate}
+                onLoadedMetadata={handleLoadedMetadata}
                 className="w-full h-full object-cover"
               />
             ) : (
@@ -99,18 +141,28 @@ export default function HeroShowcase() {
                 </div>
 
                 <div className="absolute bottom-0 inset-x-0 h-14 bg-gradient-to-t from-black/90 to-transparent flex flex-col justify-end px-4 pb-3 opacity-0 group-hover:opacity-100 transition-opacity z-20">
-                  <div className="w-full h-1 bg-white/20 rounded-full mb-3 overflow-hidden cursor-pointer">
-                    <div className="h-full bg-[#66c0f4] w-1/3" />
+                  <div className="w-full h-3 relative mb-2 flex items-center group/progress">
+                    <input 
+                      type="range" 
+                      min="0" 
+                      max="100" 
+                      value={progress}
+                      onChange={handleSeek}
+                      className="absolute inset-0 w-full opacity-0 cursor-pointer z-20"
+                    />
+                    <div className="w-full h-1 bg-white/20 rounded-full overflow-hidden absolute z-10 pointer-events-none">
+                      <div className="h-full bg-[#66c0f4] transition-all duration-100" style={{ width: `${progress}%` }} />
+                    </div>
                   </div>
                   <div className="flex items-center justify-between text-white">
                     <div className="flex items-center gap-4">
                       <button onClick={togglePlay} className="hover:text-[#66c0f4] transition-colors">
                         {isPlaying ? <Pause className="w-5 h-5 fill-current" /> : <Play className="w-5 h-5 fill-current" />}
                       </button>
-                      <button className="hover:text-[#66c0f4] transition-colors">
-                        <Volume2 className="w-5 h-5" />
+                      <button onClick={toggleMute} className="hover:text-[#66c0f4] transition-colors">
+                        {isMuted ? <VolumeX className="w-5 h-5" /> : <Volume2 className="w-5 h-5" />}
                       </button>
-                      <span className="text-xs font-mono opacity-80">1:14 / 2:07</span>
+                      <span className="text-xs font-mono opacity-80">{currentTimeStr} / {durationStr}</span>
                     </div>
                     <div className="flex items-center gap-4">
                       <span className="text-[10px] uppercase font-bold bg-white/10 px-1.5 py-0.5 rounded">1080p 60fps</span>
@@ -179,7 +231,7 @@ export default function HeroShowcase() {
         {/* RIGHT COLUMN */}
         <div className="lg:col-span-4 flex flex-col gap-4">
           <div className="relative h-44 rounded-sm overflow-hidden group border border-white/10">
-            <Image src="/images/video_1.png" alt="RKU 2.01 Banner" fill className="object-cover group-hover:scale-105 transition-transform duration-700" unoptimized />
+            <Image src="/images/foto_4.png" alt="RKU 2.01 Banner" fill className="object-cover group-hover:scale-105 transition-transform duration-700" unoptimized />
             <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f17] via-[#0b0f17]/60 to-transparent z-10" />
             <div className="absolute bottom-0 inset-x-0 p-4 z-20">
               <h2 className="text-xl font-bold text-white tracking-wider mb-1">RKU 2.01: MIDNIGHT</h2>
@@ -188,35 +240,35 @@ export default function HeroShowcase() {
           </div>
 
           <p className="text-sm text-[#8fa0ba] italic border-l-2 border-[#3b82f6] pl-3 py-1">
-            "On the night of October 31, no one is safe inside Room 2.01..."
+            "At 2:01 AM inside room RKU 2.01, no one survives... no one is safe inside Room 2.01..."
           </p>
 
           <p className="text-sm text-white/80 leading-relaxed">
-            A psychological top-down survival horror experience. Navigate the shifting corridors of an anomalous academic building, manage your limited resources, and uncover the dark history of the Faculty Archive before time runs out.
+            A psychological top-down horror game set in RKU 2.01, IPB University. Explore the building after midnight, uncover its hidden secrets, and survive the darkness within.
           </p>
 
           {/* Reviews Simulated */}
           <div className="flex flex-col gap-1 text-xs bg-[#101622] p-3 rounded-sm border border-white/5">
             <div className="flex justify-between items-center">
               <span className="text-[#8fa0ba]">Recent Reviews:</span>
-              <span className="text-[#66c0f4] font-semibold">Very Positive <span className="text-[#8fa0ba] font-normal">(1,420)</span></span>
+              <span className="text-[#66c0f4] font-semibold">Very Positive</span>
             </div>
             <div className="flex justify-between items-center">
               <span className="text-[#8fa0ba]">All Reviews:</span>
-              <span className="text-[#66c0f4] font-semibold">Mostly Positive <span className="text-[#8fa0ba] font-normal">(94%)</span></span>
+              <span className="text-[#66c0f4] font-semibold">Mostly Positive</span>
             </div>
           </div>
 
           {/* Metadata */}
           <div className="grid grid-cols-3 gap-2 text-xs bg-[#101622] p-3 rounded-sm border border-white/5">
             <div className="text-[#8fa0ba]">Release Date:</div>
-            <div className="col-span-2 text-white">Q4 2026</div>
+            <div className="col-span-2 text-white">Q2 2026</div>
             
             <div className="text-[#8fa0ba]">Developer:</div>
-            <div className="col-span-2 text-[#3b82f6] hover:text-white cursor-pointer transition-colors">Midnight Studio</div>
+            <div className="col-span-2 text-[#3b82f6] hover:text-white cursor-pointer transition-colors">Ter Serah Studio</div>
             
             <div className="text-[#8fa0ba]">Publisher:</div>
-            <div className="col-span-2 text-[#3b82f6] hover:text-white cursor-pointer transition-colors">Self-Published</div>
+            <div className="col-span-2 text-[#3b82f6] hover:text-white cursor-pointer transition-colors">-</div>
           </div>
 
           {/* Tags */}

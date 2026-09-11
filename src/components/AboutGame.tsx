@@ -25,9 +25,9 @@ export default function AboutGame() {
               </div>
 
               <div className="relative aspect-video rounded-sm overflow-hidden border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
-                <Image src="/images/foto_1.png" alt="Faculty Archive" fill className="object-cover" unoptimized />
+                <Image src="/images/log_entry_01_rku.png" alt="Faculty Archive" fill className="object-cover" unoptimized />
                 <div className="absolute bottom-0 inset-x-0 bg-black/80 px-4 py-2 border-t border-white/10 z-10">
-                  <p className="text-xs font-mono text-[#66c0f4]">LOG ENTRY 01: Flickering emergency fluorescent lights...</p>
+                  <p className="text-xs font-mono text-[#66c0f4]">LOG ENTRY 01: RKU 2.01 — Temporal anomaly detected.</p>
                 </div>
               </div>
 
@@ -38,9 +38,9 @@ export default function AboutGame() {
               </div>
 
               <div className="relative aspect-video rounded-sm overflow-hidden border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
-                <Image src="/images/foto_2.png" alt="Underground Corridor" fill className="object-cover" unoptimized />
+                <Image src="/images/log_entry_02_corridors.png" alt="Underground Corridor" fill className="object-cover" unoptimized />
                 <div className="absolute bottom-0 inset-x-0 bg-black/80 px-4 py-2 border-t border-white/10 z-10">
-                  <p className="text-xs font-mono text-[#66c0f4]">LOG ENTRY 02: Sub-level access compromised.</p>
+                  <p className="text-xs font-mono text-[#66c0f4]">LOG ENTRY 02: Corridor — Unknown presence.</p>
                 </div>
               </div>
 
@@ -51,9 +51,9 @@ export default function AboutGame() {
               </div>
 
               <div className="relative aspect-video rounded-sm overflow-hidden border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)]">
-                <Image src="/images/foto_3.png" alt="Room 2.01 Doorway" fill className="object-cover" unoptimized />
+                <Image src="/images/log_entry_03_labkom.png" alt="Room 2.01 Doorway" fill className="object-cover" unoptimized />
                 <div className="absolute bottom-0 inset-x-0 bg-black/80 px-4 py-2 border-t border-white/10 z-10">
-                  <p className="text-xs font-mono text-[#66c0f4]">LOG ENTRY 03: The threshold holds memory.</p>
+                  <p className="text-xs font-mono text-[#66c0f4]">LOG ENTRY 03: Computer Lab — Systems compromised.</p>
                 </div>
               </div>
 
@@ -80,7 +80,7 @@ export default function AboutGame() {
                 </div>
               </div>
               <p className="text-sm text-[#8fa0ba] leading-relaxed">
-                This project was built from the ground up using Godot 4. Expect raw atmosphere, experimental mechanics, and a deeply personal vision of academic dread. Support independent creators.
+                This project was built from the ground up using Godot 4. Set in the familiar halls of RKU 2.01, IPB University, the game turns an everyday academic environment into an unsettling experience after midnight.
               </p>
             </div>
 

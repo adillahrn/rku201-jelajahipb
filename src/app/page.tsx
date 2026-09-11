@@ -3,7 +3,6 @@ import HeroShowcase from "@/components/HeroShowcase";
 import AboutGame from "@/components/AboutGame";
 import Features from "@/components/Features";
 import ScreenshotGallery from "@/components/ScreenshotGallery";
-import SystemRequirements from "@/components/SystemRequirements";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -14,7 +13,6 @@ export default function Home() {
       <AboutGame />
       <Features />
       <ScreenshotGallery />
-      <SystemRequirements />
       <Footer />
     </main>
   );
